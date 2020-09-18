@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "cypress:open": "cypress open",
-    "cypress:headless": "cypress run --headless --browser chrome"
+    "cypress:headless": "cypress run --headless --browser chrome",
+    "cypress:record": "cypress run --record --key d7cf1058-7f35-4029-8db0-b05db857dd84 --browser chrome"
   },
   "keywords": [],
   "author": "",

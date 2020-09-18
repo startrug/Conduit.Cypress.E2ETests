@@ -1,25 +1,27 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('logOut', () => {
+    cy.get('a[href="#settings"]').click()
+    cy.get('.btn-outline-danger').click()
+})
+
+Cypress.Commands.add('enterLoginData', (email, password) => {
+    if (cy.get('h1').contains('Sign in').should('not.be.visible')) {
+        cy.get('.nav-link').contains('Sign in').click()
+    }
+    cy.get('input[type="email"]').type(email)
+    cy.get('input[type="password"]').type(password)
+})
+
+Cypress.Commands.add('submitLoginForm', () => {
+    cy.get('button[type="submit"]').click()
+})
+
+Cypress.Commands.add('clearLoginInputs', () => {
+    cy.get('input[type="email"]').clear()
+    cy.get('input[type="password"]').clear()
+})
+
+Cypress.Commands.add('checkLogInErrorMsg', () => {
+    cy.get('.error-messages')
+        .should('be.visible')
+        .should('have.text', 'email or password is invalid')
+})
