@@ -1,4 +1,7 @@
 {
+    "name": "Włodzimierz",
     "email": "test@hypermail.eu",
-    "password": "1234asdf"
+    "password": "1234asdf",
+    "shortPassword": "abc",
+    "invalidEmail": "a@b"
 }

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cypress:open": "cypress open",
+    "cypress:run": "cypress run --browser chrome",
     "cypress:headless": "cypress run --headless --browser chrome",
     "cypress:record": "cypress run --record --key d7cf1058-7f35-4029-8db0-b05db857dd84 --browser chrome"
   },
