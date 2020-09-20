@@ -36,7 +36,7 @@ describe('Home page tests before user logging in', function () {
 
     describe('When article preview has been clicked on', function () {
         before(() => {
-            cy.get('.article-preview').eq(getRandomNumber).within(() => {
+            cy.get('.article-preview').eq(getRandomNumber()).within(() => {
                 cy.get('h1').then(($h) => {
                     title = $h.text()
                     partialUrl = title.toLowerCase().replace(/\s/g, '-')
@@ -61,7 +61,8 @@ describe('Home page tests before user logging in', function () {
         });
 
         it('then log in or sign up request is displayed', () => {
-            cy.get('div p').last().should('contain.text', 'to add comments on this article.')
+            //cy.get('div p').last().should('contain.text', 'Sign in or sign up to add comments on this article.')
+            cy.contains('Sign in or sign up to add comments on this article.').should('be.visible')
         });
     })
 })
