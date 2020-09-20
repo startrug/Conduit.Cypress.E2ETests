@@ -1,3 +1,4 @@
+[![Conduit.Cypress.E2ETests](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/detailed/7pnt7q/master&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/7pnt7q/runs)
 ![Last commit](https://img.shields.io/github/last-commit/startrug/Conduit.Cypress.E2ETests?color=9cf&logo=git)
 ![GitHub top language](https://img.shields.io/github/languages/top/startrug/Conduit.Cypress.E2ETests?color=blue)
 
