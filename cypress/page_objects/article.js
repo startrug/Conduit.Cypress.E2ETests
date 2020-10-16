@@ -1,40 +1,48 @@
 class Article {
+
+  index;
+  title;
+  partialUrl;
+  author;
+  likesNumber;
+  likesNumberLocator = ".btn-sm";
+  titleLocator = "h1";
+  authorLocator = ".author";
+  preview = ".article-preview";
+  likesNumberOfSelected = this.preview.concat(" ", this.likesNumberLocator);
+
   constructor(index) {
     this.index = index;
-    cy.get(".article-preview")
+    cy.get(this.preview)
       .eq(this.index)
       .within(() => {
-        cy.get("h1").then(($h) => {
+        cy.get(this.titleLocator).then(($h) => {
           this.title = $h.text();
           this.partialUrl = generatePartialUrlBaseOnTitle(this.title);
         });
-        cy.get(".author").then(($a) => {
+        cy.get(this.authorLocator).then(($a) => {
           this.author = $a.text();
         });
-        cy.get(".btn-outline-primary").then(($btn) => {
-          this.likesNumber = $btn.text();
+        cy.get(this.likesNumberLocator).then(($btn) => {
+          this.likesNumber = parseInt($btn.text());
         });
       });
   }
 
   clickOnProperty(locator) {
-    cy.get(".article-preview")
+    cy.get(this.preview)
       .eq(this.index)
       .within(() => {
         cy.get(locator).click();
       });
   }
-
-  titleLocator = "h1";
-  authorLocator = ".author";
-  likesNumberLocator = ".btn-outline-primary";
 }
 
 function generatePartialUrlBaseOnTitle(title) {
   return title
     .toLowerCase()
     .replace(/(\s|\.|\')/g, "-")
-    .replace(/(\(|\)|\:|\,)/g, "");
+    .replace(/(\(|\)|\:|\,|\#)/g, "");
 }
 
 export default Article;

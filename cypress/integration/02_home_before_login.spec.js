@@ -1,19 +1,20 @@
 import Article from "../page_objects/article.js";
+import { getRandomNumber } from "../support/util.js";
 
 let selectedTag;
 let article;
 
 describe("Home page tests before user logging in", () => {
-  describe("When home page has been opened", () => {
+  describe("When home page is opened", () => {
     before(() => {
       cy.visit("#");
     });
     it("then Global Feed tab is visible", () => {
-      cy.get(".nav-link").contains("Global Feed");
+      cy.getNavLinks().contains("Global Feed");
     });
 
     it("then list of articles preview contains 10 elements", () => {
-      cy.get(".article-preview").should("have.length", 10);
+      cy.getArticlePreviews().should("have.length", 10);
     });
   });
 
@@ -27,14 +28,16 @@ describe("Home page tests before user logging in", () => {
     it("then number of likes should not be changed", () => {
       cy.get(".article-preview .btn-outline-primary")
         .eq(article.index)
-        .should("have.text", article.likesNumber);
+        .then(($likes) => {
+          expect(parseInt($likes.text())).to.equal(article.likesNumber);
+        });
     });
   });
 
   describe("When article preview clicked on", () => {
     before(() => {
       cy.visit("#");
-      checkIfloadingFinished();
+      cy.checkIfloadingFinished();
       let articleIndex = getRandomNumber();
       article = new Article(articleIndex);
       article.clickOnProperty(article.titleLocator);
@@ -45,11 +48,11 @@ describe("Home page tests before user logging in", () => {
     });
 
     it("then article page should contains title in main header", () => {
-      cy.get("h1").should("have.text", article.title);
+      cy.get(article.titleLocator).should("have.text", article.title);
     });
 
     it("then proper author name should be visible in article page", () => {
-      cy.get(".author").should("have.text", article.author);
+      cy.get(article.authorLocator).should("have.text", article.author);
     });
 
     it("then log in or sign up request is displayed", () => {
@@ -62,7 +65,7 @@ describe("Home page tests before user logging in", () => {
   describe("When author name is clicked on", () => {
     before(() => {
       cy.visit("#");
-      checkIfloadingFinished();
+      cy.checkIfloadingFinished();
       let articleIndex = getRandomNumber();
       article = new Article(articleIndex);
       article.clickOnProperty(article.authorLocator);
@@ -72,7 +75,7 @@ describe("Home page tests before user logging in", () => {
       cy.hash().should("include", article.author.split(" ")[0]);
     });
     it("then My Articles tab should be active", () => {
-      cy.get(".nav-pills .nav-link")
+      cy.getNavLinks()
         .contains("My Articles")
         .should("have.class", "active");
     });
@@ -89,7 +92,7 @@ describe("Home page tests before user logging in", () => {
   describe("When tag is clicked on in popular tags section", () => {
     before(() => {
       cy.visit("#");
-      checkIfloadingFinished();
+      cy.checkIfloadingFinished();
       cy.get("div.tag-list a")
         .as("list")
         .last()
@@ -104,11 +107,3 @@ describe("Home page tests before user logging in", () => {
     });
   });
 });
-
-function getRandomNumber() {
-  return Math.floor(Math.random() * 9 + 1);
-}
-
-function checkIfloadingFinished() {
-  cy.contains("Loading...").should("not.be.visible");
-}
