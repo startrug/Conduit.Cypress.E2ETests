@@ -10,7 +10,7 @@ describe("Home page tests before user logging in", () => {
       cy.visit("#");
     });
     it("then Global Feed tab is visible", () => {
-      cy.getNavLinks().contains("Global Feed");
+      cy.getNavLinks().should("contain", "Global Feed");
     });
 
     it("then list of articles preview contains 10 elements", () => {
@@ -37,7 +37,7 @@ describe("Home page tests before user logging in", () => {
   describe("When article preview clicked on", () => {
     before(() => {
       cy.visit("#");
-      cy.checkIfloadingFinished();
+      cy.checkIfLoadingFinished();
       let articleIndex = getRandomNumber();
       article = new Article(articleIndex);
       article.clickOnProperty(article.titleLocator);
@@ -65,7 +65,7 @@ describe("Home page tests before user logging in", () => {
   describe("When author name is clicked on", () => {
     before(() => {
       cy.visit("#");
-      cy.checkIfloadingFinished();
+      cy.checkIfLoadingFinished();
       let articleIndex = getRandomNumber();
       article = new Article(articleIndex);
       article.clickOnProperty(article.authorLocator);
@@ -84,7 +84,7 @@ describe("Home page tests before user logging in", () => {
       cy.get("h4").should("have.text", article.author);
     });
 
-    it("then article selected on Global feed list should be visible on autohor's page", () => {
+    it("then article selected on Global feed list should be visible on author's page", () => {
       cy.get(".article-preview h1").contains(article.title);
     });
   });
@@ -92,7 +92,7 @@ describe("Home page tests before user logging in", () => {
   describe("When tag is clicked on in popular tags section", () => {
     before(() => {
       cy.visit("#");
-      cy.checkIfloadingFinished();
+      cy.checkIfLoadingFinished();
       cy.get("div.tag-list a")
         .as("list")
         .last()

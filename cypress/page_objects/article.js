@@ -36,7 +36,32 @@ class Article {
         cy.get(locator).click();
       });
   }
+
+  markAsFavorite() {
+    cy.server();
+    cy.route("POST", "**/favorite").as("fav");
+    this.clickOnProperty(this.likesNumberLocator);
+    cy.wait("@fav").then((response) => {
+      if (expect(response.status).to.eq(200)) {
+        this.likesNumber++;
+      };
+    });
+
+  }
+
+  unmarkAsFavorite() {
+    cy.server();
+    cy.route("DELETE", "**/favorite").as("fav");
+    this.clickOnProperty(this.likesNumberLocator);
+    cy.wait("@fav").then((response) => {
+      if (expect(response.status).to.eq(200)) {
+        this.likesNumber--;
+      };
+    });
+  }
 }
+
+
 
 function generatePartialUrlBaseOnTitle(title) {
   return title

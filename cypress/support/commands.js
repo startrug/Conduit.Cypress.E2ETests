@@ -37,7 +37,7 @@ Cypress.Commands.add("submitForm", () => {
   cy.get("form").submit();
 });
 
-Cypress.Commands.add("checkIfloadingFinished", () => {
+Cypress.Commands.add("checkIfLoadingFinished", () => {
   cy.contains("Loading...").should("not.be.visible");
 });
 
@@ -58,4 +58,17 @@ Cypress.Commands.add("addComment", (text) => {
     cy.get("textarea").type(text);
     cy.root().submit();
   });
-})
+});
+
+Cypress.Commands.add("selectOptionFromNavbar", (name) => {
+  cy.get(".navbar-nav").contains(name).click();
+});
+
+Cypress.Commands.add("deleteComment", () => {
+  cy.server();
+  cy.route("DELETE", "**/comments/**").as("cmt");
+  cy.get(".ion-trash-a").click();
+  cy.wait("@cmt").then((response) => {
+    expect(response.status).to.eq(200);
+  });
+});
