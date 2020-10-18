@@ -1,7 +1,5 @@
 import * as user from "../data/valid_user.json";
 
-let testComment = "This article is awesome! ;)";
-
 describe("Home page tests after user logging in", () => {
   before(() => {
     cy.visit("#");
