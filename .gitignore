@@ -1,4 +1,4 @@
-secrets.json
+cypress.env.json
 node_modules
 screenshots
 videos
