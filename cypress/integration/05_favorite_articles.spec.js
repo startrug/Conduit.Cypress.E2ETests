@@ -4,6 +4,7 @@ import { getRandomNumber } from "../support/util.js";
 
 let article;
 let favoritedArticle;
+let initialFavoritesCount;
 
 describe("Marking / unmarking articles as favorite tests", () => {
   before(() => {
@@ -12,21 +13,31 @@ describe("Marking / unmarking articles as favorite tests", () => {
     cy.submitForm();
   });
 
-  describe("When user that logged in has clicked on heart icon", () => {
+  describe("When user that logged and random article is selected", () => {
     before(() => {
       cy.getNavLinks().contains("Global Feed").should("be.visible").click();
       cy.checkIfLoadingFinished();
       cy.getArticlePreviews().should("have.length", 10);
       let articleIndex = getRandomNumber();
       article = new Article(articleIndex);
+    });
+
+    it("then initial likes number of article should not be NaN", () => {
+      expect(article.likesNumber).to.not.NaN;
+      initialFavoritesCount = article.likesNumber;
       article.markAsFavorite();
     });
 
     it("then number of likes should be increased by one after first click", () => {
+      cy.get(article.likesNumberOfSelected, {timeout: 10000})
+        .eq(article.index)
+        .should(($likes) => {
+          expect(parseInt($likes.text())).to.not.equal(parseInt(initialFavoritesCount));
+        });
       cy.get(article.likesNumberOfSelected)
         .eq(article.index)
-        .then(($likes) => {
-          expect(parseInt($likes.text())).to.equal(article.likesNumber);
+        .should(($likes) => {
+          expect(parseInt($likes.text())).to.equal(parseInt(article.favoritesCount));
         });
     });
 
@@ -34,8 +45,8 @@ describe("Marking / unmarking articles as favorite tests", () => {
       article.unmarkAsFavorite();
       cy.get(article.likesNumberOfSelected)
         .eq(article.index)
-        .then(($likes) => {
-          expect(parseInt($likes.text())).to.equal(article.likesNumber);
+        .should(($likes) => {
+          expect(parseInt($likes.text())).to.equal(initialFavoritesCount);
         });
     });
   });

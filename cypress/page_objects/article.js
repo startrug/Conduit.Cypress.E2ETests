@@ -4,6 +4,7 @@ class Article {
   title;
   partialUrl;
   author;
+  favoritesCount;
   likesNumber;
   likesNumberLocator = ".btn-sm";
   titleLocator = "h1";
@@ -18,7 +19,7 @@ class Article {
       .within(() => {
         cy.get(this.titleLocator).then(($h) => {
           this.title = $h.text();
-          this.partialUrl = generatePartialUrlBaseOnTitle(this.title);
+          this.partialUrl = this.generatePartialUrlBaseOnTitle(this.title);
         });
         cy.get(this.authorLocator).then(($a) => {
           this.author = $a.text();
@@ -39,35 +40,32 @@ class Article {
 
   markAsFavorite() {
     cy.server();
-    cy.route("POST", "**/favorite").as("fav");
+    cy.route("POST", "**/favorite").as("getFav");
     this.clickOnProperty(this.likesNumberLocator);
-    cy.wait("@fav").then((response) => {
-      if (expect(response.status).to.eq(200)) {
-        this.likesNumber++;
-      };
-    });
-
-  }
+    cy.wait("@getFav").then((response) => {
+      let favoritesCount = JSON.stringify(response.responseBody.article.favoritesCount);
+      expect(parseInt(favoritesCount)).to.be.not.null;
+      this.favoritesCount = favoritesCount;
+    })
+  };
 
   unmarkAsFavorite() {
     cy.server();
-    cy.route("DELETE", "**/favorite").as("fav");
+    cy.route("DELETE", "**/favorite").as("deleteFav");
     this.clickOnProperty(this.likesNumberLocator);
-    cy.wait("@fav").then((response) => {
-      if (expect(response.status).to.eq(200)) {
-        this.likesNumber--;
-      };
-    });
+    cy.wait("@deleteFav").then((response) => {
+      let favoritesCount = JSON.stringify(response.responseBody.article.favoritesCount);
+      expect(parseInt(favoritesCount)).to.be.not.null;
+      this.favoritesCount = favoritesCount;
+    })
+  };
+
+  generatePartialUrlBaseOnTitle(title) {
+    return title
+      .toLowerCase()
+      .replace(/(\s|\.|\')/g, "-")
+      .replace(/(\(|\)|\:|\,|\#)/g, "");
   }
-}
-
-
-
-function generatePartialUrlBaseOnTitle(title) {
-  return title
-    .toLowerCase()
-    .replace(/(\s|\.|\')/g, "-")
-    .replace(/(\(|\)|\:|\,|\#)/g, "");
 }
 
 export default Article;
