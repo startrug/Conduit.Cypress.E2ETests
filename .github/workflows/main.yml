@@ -1,4 +1,4 @@
-- name: Conduit.Cypress.E2ETests
+- name: Conduit Cypress e2e tests
 on: [push]
 jobs:
   cypress-run:
