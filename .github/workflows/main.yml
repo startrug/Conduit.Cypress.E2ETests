@@ -12,6 +12,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           record: true
+          browser: chrome
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.cypressRecordKey }}
           GITHUB_TOKEN: ${{ secrets.token }}
