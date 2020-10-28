@@ -37,7 +37,7 @@ describe("Marking / unmarking articles as favorite tests", () => {
       cy.get(article.likesNumberOfSelected)
         .eq(article.index)
         .should(($likes) => {
-          expect(parseInt($likes.text())).to.equal(parseInt(article.favoritesCount));
+          expect(parseInt($likes.text())).to.equal(initialFavoritesCount + 1);
         });
     });
 
