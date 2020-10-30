@@ -1,74 +1,58 @@
-let author;
-let title;
-let likesNumber;
-let partialUrl;
-let articleIndex;
+import Article from "../page_objects/article.js";
+import { getRandomNumber } from "../support/util.js";
+
 let selectedTag;
+let article;
 
 describe("Home page tests before user logging in", () => {
-  describe("When home page has been opened", () => {
+  describe("When home page is opened", () => {
     before(() => {
       cy.visit("#");
     });
     it("then Global Feed tab is visible", () => {
-      cy.get(".nav-link").contains("Global Feed");
+      cy.getNavLinks().should("contain", "Global Feed");
     });
 
     it("then list of articles preview contains 10 elements", () => {
-      cy.get(".article-preview").should("have.length", 10);
+      cy.getArticlePreviews().should("have.length", 10);
     });
   });
 
   describe("When user that not logged in has clicked on heart icon", () => {
     before(() => {
-      articleIndex = getRandomNumber();
-      cy.get(".article-preview")
-        .eq(articleIndex)
-        .within(() => {
-          cy.get(".btn-outline-primary")
-            .as("like")
-            .then(($btn) => {
-              likesNumber = $btn.text();
-            });
-          cy.get("@like").click();
-        });
+      let articleIndex = getRandomNumber();
+      article = new Article(articleIndex);
+      article.clickOnProperty(article.likesNumberLocator);
     });
 
     it("then number of likes should not be changed", () => {
       cy.get(".article-preview .btn-outline-primary")
-        .eq(articleIndex)
-        .should("have.text", likesNumber);
+        .eq(article.index)
+        .then(($likes) => {
+          expect(parseInt($likes.text())).to.equal(article.likesNumber);
+        });
     });
   });
 
   describe("When article preview clicked on", () => {
     before(() => {
       cy.visit("#");
-      checkIfloadingFinished();
-      cy.get(".article-preview")
-        .eq(getRandomNumber())
-        .within(() => {
-          cy.get("h1").then(($h) => {
-            title = $h.text();
-            partialUrl = generatePartialUrlBaseOnTitle(title);
-          });
-          cy.get(".author").then(($a) => {
-            author = $a.text();
-          });
-          cy.get("h1").click();
-        });
+      cy.checkIfLoadingFinished();
+      let articleIndex = getRandomNumber();
+      article = new Article(articleIndex);
+      article.clickOnProperty(article.titleLocator);
     });
 
     it("then URL address should contain article title", () => {
-      cy.hash().should("include", partialUrl);
+      cy.hash().should("include", article.partialUrl);
     });
 
     it("then article page should contains title in main header", () => {
-      cy.get("h1").should("have.text", title);
+      cy.get(article.titleLocator).should("have.text", article.title);
     });
 
     it("then proper author name should be visible in article page", () => {
-      cy.get(".author").should("have.text", author);
+      cy.get(article.authorLocator).should("have.text", article.author);
     });
 
     it("then log in or sign up request is displayed", () => {
@@ -81,42 +65,34 @@ describe("Home page tests before user logging in", () => {
   describe("When author name is clicked on", () => {
     before(() => {
       cy.visit("#");
-      checkIfloadingFinished();
-      cy.get(".article-preview")
-        .eq(getRandomNumber())
-        .within(() => {
-          cy.get("h1").then(($h) => {
-            title = $h.text();
-          });
-          cy.get(".author").then(($a) => {
-            author = $a.text();
-          });
-          cy.get(".author").click();
-        });
+      cy.checkIfLoadingFinished();
+      let articleIndex = getRandomNumber();
+      article = new Article(articleIndex);
+      article.clickOnProperty(article.authorLocator);
     });
 
     it("then URL address should contain author name", () => {
-      cy.hash().should("include", author.split(" ")[0]);
+      cy.hash().should("include", article.author.split(" ")[0]);
     });
     it("then My Articles tab should be active", () => {
-      cy.get(".nav-pills .nav-link")
+      cy.getNavLinks()
         .contains("My Articles")
         .should("have.class", "active");
     });
 
     it("then author name should be displayed in header of author's page", () => {
-      cy.get("h4").should("have.text", author);
+      cy.get("h4").should("have.text", article.author);
     });
 
-    it("then article selected on Global feed list should be visible on autohor's page", () => {
-      cy.get(".article-preview h1").contains(title);
+    it("then article selected on Global feed list should be visible on author's page", () => {
+      cy.get(".article-preview h1").contains(article.title);
     });
   });
 
   describe("When tag is clicked on in popular tags section", () => {
     before(() => {
       cy.visit("#");
-      checkIfloadingFinished();
+      cy.checkIfLoadingFinished();
       cy.get("div.tag-list a")
         .as("list")
         .last()
@@ -131,18 +107,3 @@ describe("Home page tests before user logging in", () => {
     });
   });
 });
-
-function generatePartialUrlBaseOnTitle(title) {
-  return title
-    .toLowerCase()
-    .replace(/(\s|\.|\')/g, "-")
-    .replace(/(\(|\)|\:|\,)/g, "");
-}
-
-function getRandomNumber() {
-  return Math.floor(Math.random() * 9 + 1);
-}
-
-function checkIfloadingFinished() {
-  cy.contains("Loading...").should("not.be.visible");
-}

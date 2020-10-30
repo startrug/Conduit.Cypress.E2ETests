@@ -1,20 +1,8 @@
-let fakeUser;
-let user;
-let errorMessages;
+import * as messages from "../data/error_messages.json";
+import * as fakeUser from "../data/invalid_user.json";
+import * as user from "../data/valid_user.json";
 
 describe("Log in tests", function () {
-  beforeEach(() => {
-    cy.fixture("invalid_user_data").then((fakeUserData) => {
-      fakeUser = fakeUserData;
-    });
-    cy.fixture("valid_user_data").then((userData) => {
-      user = userData;
-    });
-    cy.fixture("error_messages").then((errorMsgs) => {
-      errorMessages = errorMsgs;
-    });
-  });
-
   describe("When Conduit page has been opened", function () {
     before(() => {
       cy.visit("#/login");
@@ -49,7 +37,7 @@ describe("Log in tests", function () {
       cy.clearInputFields();
     });
     it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.invalidLoginData);
+      cy.checkErrorMsg(messages.invalidLoginData);
     });
   });
 
@@ -63,7 +51,7 @@ describe("Log in tests", function () {
     });
 
     it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.invalidLoginData);
+      cy.checkErrorMsg(messages.invalidLoginData);
     });
   });
 
@@ -77,7 +65,7 @@ describe("Log in tests", function () {
     });
 
     it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.invalidLoginData);
+      cy.checkErrorMsg(messages.invalidLoginData);
     });
   });
 
@@ -91,7 +79,7 @@ describe("Log in tests", function () {
     });
 
     it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.invalidLoginData);
+      cy.checkErrorMsg(messages.invalidLoginData);
     });
   });
 
@@ -105,7 +93,7 @@ describe("Log in tests", function () {
     });
 
     it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.invalidLoginData);
+      cy.checkErrorMsg(messages.invalidLoginData);
     });
   });
 
@@ -119,7 +107,7 @@ describe("Log in tests", function () {
     });
 
     it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.invalidLoginData);
+      cy.checkErrorMsg(messages.invalidLoginData);
     });
   });
 });

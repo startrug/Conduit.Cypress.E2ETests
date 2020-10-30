@@ -1,21 +1,10 @@
-let fakeUser;
-let user;
-let errorMessages;
+import * as messages from "../data/error_messages.json";
+import * as fakeUser from "../data/invalid_user.json";
+import * as user from "../data/valid_user.json";
 
 describe("Sign up tests", function () {
   before(() => {
     cy.visit("#/register");
-  });
-  beforeEach(() => {
-    cy.fixture("invalid_user_data").then((fakeUserData) => {
-      fakeUser = fakeUserData;
-    });
-    cy.fixture("valid_user_data").then((userData) => {
-      user = userData;
-    });
-    cy.fixture("error_messages").then((errorMsgs) => {
-      errorMessages = errorMsgs;
-    });
   });
 
   describe("When no sign up data has been entered and form has been submitted", function () {
@@ -24,15 +13,15 @@ describe("Sign up tests", function () {
     });
 
     it("then expected blank email error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.blankEmail, 0);
+      cy.checkErrorMsg(messages.blankEmail, 0);
     });
 
     it("then expected blank password error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.blankPassword, 1);
+      cy.checkErrorMsg(messages.blankPassword, 1);
     });
 
     it("then expected blank username error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.blankUserName, 2);
+      cy.checkErrorMsg(messages.blankUserName, 2);
     });
   });
 
@@ -44,7 +33,7 @@ describe("Sign up tests", function () {
     });
 
     it("then user being already taken error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.usernameIsTaken);
+      cy.checkErrorMsg(messages.usernameIsTaken);
     });
   });
 
@@ -56,7 +45,7 @@ describe("Sign up tests", function () {
     });
 
     it("then user being already taken error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.emailIsTaken);
+      cy.checkErrorMsg(messages.emailIsTaken);
     });
   });
 
@@ -68,7 +57,7 @@ describe("Sign up tests", function () {
     });
 
     it("then user being already taken error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.toShortPassword);
+      cy.checkErrorMsg(messages.toShortPassword);
     });
   });
 
@@ -84,7 +73,7 @@ describe("Sign up tests", function () {
     });
 
     it("then user being already taken error message has been displayed", () => {
-      cy.checkErrorMsg(errorMessages.invalidEmail);
+      cy.checkErrorMsg(messages.invalidEmail);
     });
   });
 });
