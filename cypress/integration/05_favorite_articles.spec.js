@@ -4,7 +4,6 @@ import { getRandomNumber } from "../support/util.js";
 
 let article;
 let favoritedArticle;
-let initialFavoritesCount;
 
 describe("Marking / unmarking articles as favorite tests", () => {
   before(() => {
@@ -13,46 +12,11 @@ describe("Marking / unmarking articles as favorite tests", () => {
     cy.submitForm();
   });
 
-  describe("When user that logged and random article is selected", () => {
+  describe("When user that logged and random article is marked as favorite", () => {
     before(() => {
       cy.getNavLinks().contains("Global Feed").should("be.visible").click();
       cy.checkIfLoadingFinished();
       cy.getArticlePreviews().should("have.length", 10);
-      let articleIndex = getRandomNumber();
-      article = new Article(articleIndex);
-    });
-
-    it("then initial likes number of article should not be NaN", () => {
-      expect(article.likesNumber).to.not.NaN;
-      initialFavoritesCount = article.likesNumber;
-      article.markAsFavorite();
-    });
-
-    it("then number of likes should be increased by one after first click", () => {
-      cy.get(article.likesNumberOfSelected, {timeout: 10000})
-        .eq(article.index)
-        .should(($likes) => {
-          expect(parseInt($likes.text())).to.not.equal(parseInt(initialFavoritesCount));
-        });
-      cy.get(article.likesNumberOfSelected)
-        .eq(article.index)
-        .should(($likes) => {
-          expect(parseInt($likes.text())).to.equal(initialFavoritesCount + 1);
-        });
-    });
-
-    it("then number of likes should be equal previous count", () => {
-      article.unmarkAsFavorite();
-      cy.get(article.likesNumberOfSelected)
-        .eq(article.index)
-        .should(($likes) => {
-          expect(parseInt($likes.text())).to.equal(initialFavoritesCount);
-        });
-    });
-  });
-
-  describe("When user that logged in has clicked on heart icon of another random article", () => {
-    before(() => {
       article = new Article(getRandomNumber());
       article.markAsFavorite();
     });
@@ -62,7 +26,8 @@ describe("Marking / unmarking articles as favorite tests", () => {
       cy.getNavLinks().contains("Favorited Articles").click();
       cy.getArticlePreviews().should("contain", article.title);
     });
-  })
+  });
+
 
   describe("When user that logged in has clicked on heart icon of favorite article", () => {
     before(() => {
@@ -78,11 +43,7 @@ describe("Marking / unmarking articles as favorite tests", () => {
     });
 
     it("then no articles message should be displayed on \"Favorited Articles\" list", () => {
-      if (cy.getArticlePreviews().should("have.length", 1)) {
-        cy.contains("No articles are here... yet.").should("be.visible");
-      } else {
-        cy.log("There is still another favorited article in the list!")
-      }
+      cy.contains("No articles are here... yet.").should("be.visible");
     });
   })
 });

@@ -44,8 +44,7 @@ class Article {
     this.clickOnProperty(this.likesNumberLocator);
     cy.wait("@getFav").then((response) => {
       let favoritesCount = JSON.stringify(response.responseBody.article.favoritesCount);
-      expect(parseInt(favoritesCount)).to.be.not.null;
-      this.favoritesCount = favoritesCount;
+      expect(parseInt(favoritesCount)).to.be.greaterThan(0)
     })
   };
 
@@ -55,8 +54,7 @@ class Article {
     this.clickOnProperty(this.likesNumberLocator);
     cy.wait("@deleteFav").then((response) => {
       let favoritesCount = JSON.stringify(response.responseBody.article.favoritesCount);
-      expect(parseInt(favoritesCount)).to.be.not.null;
-      this.favoritesCount = favoritesCount;
+      expect(parseInt(favoritesCount)).to.be.not.lessThan(0);
     })
   };
 
