@@ -64,8 +64,8 @@ class Article {
 	generatePartialUrlBaseOnTitle(title) {
 		return title
 			.toLowerCase()
-			.replace(/(\s|\.|\')/g, '-')
-			.replace(/(\(|\)|\:|\,|\#)/g, '');
+			.replace(/(\(|\)|\:|\,|\#|\-)/g, '')
+			.replace(/(\s|\.|\')/g, '-');
 	}
 }
 
