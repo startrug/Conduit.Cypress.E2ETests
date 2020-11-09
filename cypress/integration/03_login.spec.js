@@ -1,113 +1,115 @@
-import * as messages from "../data/error_messages.json";
-import * as fakeUser from "../data/invalid_user.json";
-import * as user from "../data/valid_user.json";
+/// <reference path="../support/customCommands.d.ts" />
 
-describe("Log in tests", function () {
-  describe("When Conduit page has been opened", function () {
-    before(() => {
-      cy.visit("#/login");
-    });
+import * as messages from '../data/error_messages.json';
+import * as fakeUser from '../data/invalid_user.json';
+import * as user from '../data/valid_user.json';
 
-    it("then page title is correct", () => {
-      cy.title().should("eq", "Conduit");
-    });
-  });
+describe('Log in tests', function () {
+	describe('When Conduit page has been opened', function () {
+		before(() => {
+			cy.visit('#/login');
+		});
 
-  describe("When valid credentials has been entered", function () {
-    before(() => {
-      cy.enterLoginData(user.email, user.password);
-      cy.submitForm();
-    });
+		it('then page title is correct', () => {
+			cy.title().should('eq', 'Conduit');
+		});
+	});
 
-    it("then correct user name should be displayed", () => {
-      cy.get('a[href="#@arthurs"]').should("be.visible");
-    });
+	describe('When valid credentials has been entered', function () {
+		before(() => {
+			cy.enterLoginData(user.email, user.password);
+			cy.submitForm();
+		});
 
-    after(() => {
-      cy.logOut();
-    });
-  });
+		it('then correct user name should be displayed', () => {
+			cy.get('a[href="#@arthurs"]').should('be.visible');
+		});
 
-  describe("When invalid credentials has been entered and login form has been submitted", function () {
-    before(() => {
-      cy.enterLoginData(fakeUser.email, fakeUser.password);
-      cy.submitForm();
-    });
-    after(() => {
-      cy.clearInputFields();
-    });
-    it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(messages.invalidLoginData);
-    });
-  });
+		after(() => {
+			cy.logOut();
+		});
+	});
 
-  describe("When valid email and invalid password has been entered and login form has been submitted", function () {
-    before(() => {
-      cy.enterLoginData(user.email, fakeUser.password);
-      cy.submitForm();
-    });
-    after(() => {
-      cy.clearInputFields();
-    });
+	describe('When invalid credentials has been entered and login form has been submitted', function () {
+		before(() => {
+			cy.enterLoginData(fakeUser.email, fakeUser.password);
+			cy.submitForm();
+		});
+		after(() => {
+			cy.clearInputFields();
+		});
+		it('then expected error message has been displayed', () => {
+			cy.checkErrorMsg(messages.invalidLoginData);
+		});
+	});
 
-    it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(messages.invalidLoginData);
-    });
-  });
+	describe('When valid email and invalid password has been entered and login form has been submitted', function () {
+		before(() => {
+			cy.enterLoginData(user.email, fakeUser.password);
+			cy.submitForm();
+		});
+		after(() => {
+			cy.clearInputFields();
+		});
 
-  describe("When valid email and no password has been entered and login form has been submitted", function () {
-    before(() => {
-      cy.enterLoginData(user.email, " ");
-      cy.submitForm();
-    });
-    after(() => {
-      cy.clearInputFields();
-    });
+		it('then expected error message has been displayed', () => {
+			cy.checkErrorMsg(messages.invalidLoginData);
+		});
+	});
 
-    it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(messages.invalidLoginData);
-    });
-  });
+	describe('When valid email and no password has been entered and login form has been submitted', function () {
+		before(() => {
+			cy.enterLoginData(user.email, ' ');
+			cy.submitForm();
+		});
+		after(() => {
+			cy.clearInputFields();
+		});
 
-  describe("When no email and valid password has been entered and login form has been submitted", function () {
-    before(() => {
-      cy.enterLoginData(" ", user.password);
-      cy.submitForm();
-    });
-    after(() => {
-      cy.clearInputFields();
-    });
+		it('then expected error message has been displayed', () => {
+			cy.checkErrorMsg(messages.invalidLoginData);
+		});
+	});
 
-    it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(messages.invalidLoginData);
-    });
-  });
+	describe('When no email and valid password has been entered and login form has been submitted', function () {
+		before(() => {
+			cy.enterLoginData(' ', user.password);
+			cy.submitForm();
+		});
+		after(() => {
+			cy.clearInputFields();
+		});
 
-  describe("When invalid email and valid password has been entered and login form has been submitted", function () {
-    before(() => {
-      cy.enterLoginData(fakeUser.email, user.password);
-      cy.submitForm();
-    });
-    after(() => {
-      cy.clearInputFields();
-    });
+		it('then expected error message has been displayed', () => {
+			cy.checkErrorMsg(messages.invalidLoginData);
+		});
+	});
 
-    it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(messages.invalidLoginData);
-    });
-  });
+	describe('When invalid email and valid password has been entered and login form has been submitted', function () {
+		before(() => {
+			cy.enterLoginData(fakeUser.email, user.password);
+			cy.submitForm();
+		});
+		after(() => {
+			cy.clearInputFields();
+		});
 
-  describe("When no email and no password has been entered and login form has been submitted", function () {
-    before(() => {
-      cy.enterLoginData(" ", " ");
-      cy.submitForm();
-    });
-    after(() => {
-      cy.clearInputFields();
-    });
+		it('then expected error message has been displayed', () => {
+			cy.checkErrorMsg(messages.invalidLoginData);
+		});
+	});
 
-    it("then expected error message has been displayed", () => {
-      cy.checkErrorMsg(messages.invalidLoginData);
-    });
-  });
+	describe('When no email and no password has been entered and login form has been submitted', function () {
+		before(() => {
+			cy.enterLoginData(' ', ' ');
+			cy.submitForm();
+		});
+		after(() => {
+			cy.clearInputFields();
+		});
+
+		it('then expected error message has been displayed', () => {
+			cy.checkErrorMsg(messages.invalidLoginData);
+		});
+	});
 });
