@@ -40,7 +40,7 @@ describe('Marking / unmarking articles as favorite tests', () => {
 			cy.getNavLinks().contains('My Articles').click();
 			cy.getNavLinks().contains('Favorited Articles').click();
 			cy.getArticlePreviews().should('have.length', 1);
-			cy.get('preview-link h1')
+			cy.get('.preview-link h1')
 				.contains(favoritedArticle.title)
 				.should('not.be.visible');
 		});
