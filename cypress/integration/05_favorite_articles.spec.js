@@ -36,13 +36,11 @@ describe('Marking / unmarking articles as favorite tests', () => {
 			favoritedArticle.unmarkAsFavorite();
 		});
 
-		it('then favorite article should not be visible in "Favorited Articles" list after reload it', () => {
+		it('then any favorite article should not be visible in "Favorited Articles" list after reload it', () => {
 			cy.getNavLinks().contains('My Articles').click();
 			cy.getNavLinks().contains('Favorited Articles').click();
 			cy.getArticlePreviews().should('have.length', 1);
-			cy.get('.preview-link h1')
-				.contains(favoritedArticle.title)
-				.should('not.be.visible');
+			cy.get('.preview-link').should('not.be.visible');
 		});
 
 		it('then no articles message should be displayed on "Favorited Articles" list', () => {
