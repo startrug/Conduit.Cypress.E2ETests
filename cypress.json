@@ -1,4 +1,5 @@
 {
-  "baseUrl": "https://react-redux.realworld.io/",
-  "projectId": "7pnt7q"
+	"baseUrl": "https://react-redux.realworld.io/",
+	"projectId": "7pnt7q",
+	"defaultCommandTimeout": 10000
 }
