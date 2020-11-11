@@ -27,10 +27,11 @@ Cypress.Commands.add('clearInputFields', () => {
 });
 
 Cypress.Commands.add('checkErrorMsg', (text, index = 0) => {
-	cy.get('.error-messages li')
-		.eq(index)
+	cy.get('.error-messages')
 		.should('be.visible')
-		.should('have.text', text);
+		.within(() => {
+			cy.get('li').eq(index).should('be.visible').should('have.text', text);
+		});
 });
 
 Cypress.Commands.add('submitForm', () => {
