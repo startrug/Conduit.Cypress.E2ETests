@@ -4,17 +4,13 @@ Cypress.Commands.add('logOut', () => {
 });
 
 Cypress.Commands.add('enterLoginData', (email, password) => {
-	if (cy.get('h1').contains('Sign in').should('not.be.visible')) {
-		cy.get('.nav-link').contains('Sign in').click();
-	}
+	cy.get('.nav-link').contains('Sign in').click();
 	cy.get('input[type="email"]').type(email);
 	cy.get('input[type="password"]').type(password);
 });
 
 Cypress.Commands.add('enterSignUpData', (username, email, password) => {
-	if (cy.get('h1').contains('Sign up').should('not.be.visible')) {
-		cy.get('.nav-link').contains('Sign up').click();
-	}
+	cy.get('.nav-link').contains('Sign up').click();
 	cy.get('input[placeholder="Username"]').type(username);
 	cy.get('input[type="email"]').type(email);
 	cy.get('input[type="password"]').type(password);
@@ -39,7 +35,7 @@ Cypress.Commands.add('submitForm', () => {
 });
 
 Cypress.Commands.add('checkIfLoadingFinished', () => {
-	cy.contains('Loading...').should('not.be.visible');
+	cy.contains('Loading...').should('not.exist');
 });
 
 Cypress.Commands.add('getNavLinks', () => {

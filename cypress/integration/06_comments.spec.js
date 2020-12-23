@@ -57,7 +57,7 @@ describe('Adding and removing comments test', () => {
 			cy.get('.article-page').should('be.visible');
 		});
 		it('then comment should not be visible', () => {
-			cy.contains(testComment).should('not.be.visible');
+			cy.contains(testComment).should('not.exist');
 		});
 	});
 });
