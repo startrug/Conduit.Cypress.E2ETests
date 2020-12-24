@@ -40,7 +40,7 @@ describe('Marking / unmarking articles as favorite tests', () => {
 			cy.getNavLinks().contains('My Articles').click();
 			cy.getNavLinks().contains('Favorited Articles').click();
 			cy.getArticlePreviews().should('have.length', 1);
-			cy.get('.preview-link').should('not.be.visible');
+			cy.get('.preview-link').should('not.exist');
 		});
 
 		it('then no articles message should be displayed on "Favorited Articles" list', () => {

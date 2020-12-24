@@ -21,7 +21,9 @@ describe('Home page tests after user logging in', () => {
 		});
 
 		it('then Global Feed tab is not active', () => {
-			cy.getNavLinks().contains('Your feed').should('not.have.class', 'active');
+			cy.getNavLinks()
+				.contains('Global Feed')
+				.should('not.have.class', 'active');
 		});
 	});
 
