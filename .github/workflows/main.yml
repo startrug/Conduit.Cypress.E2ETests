@@ -1,8 +1,8 @@
 name: Conduit Cypress e2e tests
 on:
   push:
-  schedule:
-  - cron: "0 0 * * *"  
+  #schedule:
+  #- cron: "0 0 * * *"  
 jobs:
   cypress-run:
     name: Cypress run
