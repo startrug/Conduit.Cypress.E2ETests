@@ -10,7 +10,7 @@
 		"cypress:record": "cypress run --record --headless --browser chrome"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "developer",
 	"license": "ISC",
 	"dependencies": {
 		"mocha": "^8.1.3"
