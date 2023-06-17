@@ -5,19 +5,19 @@
 	"main": "index.js",
 	"scripts": {
 		"cypress:open": "cypress open",
-		"cypress:run": "cypress run --browser chrome",
-		"cypress:headless": "cypress run --headless --browser chrome",
-		"cypress:record": "cypress run --record --headless --browser chrome"
+		"cypress:run": "cypress run --browser electron",
+		"cypress:headless": "cypress run --headless --browser electron",
+		"cypress:record": "cypress run --record --headless --browser electron"		
 	},
 	"keywords": [],
 	"author": "developer",
 	"license": "ISC",
 	"dependencies": {
-		"mocha": "^8.1.3"
+		"mocha": "^10.2.0"
 	},
 	"devDependencies": {
+		"ansi-regex": ">=5.0.1",
 		"cypress": "^6.2.0",
-		"minimatch": ">=3.0.5",
-		"ansi-regex": ">=5.0.1"
+		"minimatch": ">=3.0.5"
 	}
 }
